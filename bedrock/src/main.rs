@@ -10,7 +10,6 @@ async fn main() {
         population: Arc::new(Mutex::new(500)),
     };
 
-    // let cors = CorsLayer::very_permissive().allow_methods(Any);
     let cors = CorsLayer::new().allow_methods(Any).allow_origin(Any);
 
     let app = Router::new()
@@ -34,9 +33,9 @@ struct AppState {
 }
 
 #[derive(Debug, Deserialize, Serialize)]
-struct PopulationAnnouncement {
+struct PopulationAnnouncement<'a> {
     population: i32,
-    announcement: String,
+    announcement: &'a str,
 }
 
 #[axum::debug_handler]
@@ -54,7 +53,7 @@ async fn add(State(state): State<AppState>) -> impl IntoResponse {
 
     let popreturn = PopulationAnnouncement {
         population: *data,
-        announcement: "Little timmy was born today.".to_string(),
+        announcement: "Little timmy was born today.",
     };
 
     (StatusCode::OK, Json(popreturn))
@@ -68,7 +67,7 @@ async fn sub(State(state): State<AppState>) -> impl IntoResponse {
 
     let popreturn = PopulationAnnouncement {
         population: *data,
-        announcement: "Little timmy died in the well.".to_string(),
+        announcement: "Little timmy died in the well.",
     };
 
     (StatusCode::OK, Json(popreturn))
