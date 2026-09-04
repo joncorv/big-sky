@@ -23,18 +23,17 @@
     efiInstallAsRemovable = true;
   };
 
-  services = {
-
-    openssh.enable = true;
-
-    # INFO: Only enabled once we're up and running
-    openssh.settings = {
-      PasswordAuthentication = false;
-      KbdInteractiveAuthentication = false;
-      PermitRootLogin = "prohibit-password";
-    };
-
+  # SSH
+  services.openssh.enable = true;
+  services.openssh.settings = {
+    PasswordAuthentication = false;
+    KbdInteractiveAuthentication = false;
+    PermitRootLogin = "prohibit-password";
   };
+
+  # Tailscale
+  services.tailscale.enable = true;
+  networking.firewall.interfaces."tailscale0".allowedTCPPorts = [ 22 ];
 
   nixpkgs.config.allowUnfree = true;
   environment.systemPackages = map lib.lowPrio [
@@ -45,10 +44,10 @@
     pkgs.ghostty.terminfo
   ];
 
-  # INFO: temp password needed initially
+  # Temp password only used for new-installs
   # users.users.root.initialPassword = "1234";
 
-  # Only allow connections from confirmed users
+  # Only allow connections from my verified users.
   # These are Public Keys and can be commited to version control.
   users.users.root.openssh.authorizedKeys.keys =
   [
