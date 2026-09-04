@@ -42,6 +42,7 @@
     pkgs.gitMinimal
     pkgs.neovim
     pkgs.gh
+    pkgs.ghostty.terminfo
   ];
 
   # INFO: temp password needed initially
