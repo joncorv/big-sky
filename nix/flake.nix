@@ -21,7 +21,7 @@
       # generated from https://github.com/nix-community/nixos-anywhere-examples
       # nixos-anywhere --flake .#generic --generate-hardware-config nixos-generate-config ./hardware-configuration.nix <hostname>
       # "--no-reexec" flag required for my setups.
-      nixosConfigurations.generic = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.big-sky = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           disko.nixosModules.disko
