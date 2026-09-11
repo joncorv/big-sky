@@ -1,16 +1,16 @@
 services:
   postgres:
-    image: postgres:16
+    image: postgres:18
     environment:
-      POSTGRES_DB: cellar
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: dev-only
+      POSTGRES_USER: example_user
+      POSTGRES_PASSWORD: example_password
+      POSTGRES_DB: example_db
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U myapp -d myapp_dev"]
+      test: ["CMD-SHELL", "pg_isready -U cellar -d cellar-dev"]
       interval: 5s
       timeout: 5s
       retries: 10
