@@ -1,14 +1,20 @@
 <script setup lang="ts">
 const population: Ref<number> = useState("pop");
 
-await callOnce(async () => {
-  population.value = await $fetch("http://127.0.0.1:8080");
-});
+interface Population {
+  population: number;
+}
 
 interface PopulationAnnouncement {
   population: number;
   announcement: string;
 }
+
+await callOnce(async () => {
+  const data = await $fetch<Population>("http://127.0.0.1:8080");
+  population.value = data.population;
+  console.log("Bedrock called at root. it returns: ", population.value);
+});
 
 const toast = useToast();
 
@@ -147,9 +153,7 @@ const services = [
         <!-- Grain layer sits above the frosted fill so the blur stays readable. -->
         <div class="big-sky__panel-grain" aria-hidden="true" />
 
-        <h1 class="big-sky__title">
-          Howdy, Stranger.
-        </h1>
+        <h1 class="big-sky__title">Howdy, Stranger.</h1>
 
         <p class="big-sky__lede">
           You just created a project with the best web framework in the west.
